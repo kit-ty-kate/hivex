@@ -39,6 +39,8 @@
 #directory "+str";;
 #load "str.cma";;
 
+let stdlib_stdout = stdout
+
 open Unix
 open Printf
 
@@ -700,7 +702,7 @@ let check_functions () =
   ) functions
 
 (* 'pr' prints to the current output file. *)
-let chan = ref Stdlib.stdout
+let chan = ref stdlib_stdout
 let lines = ref 0
 let pr fs =
   ksprintf
@@ -3794,7 +3796,7 @@ let output_to filename k =
   chan := open_out filename_new;
   k ();
   close_out !chan;
-  chan := Stdlib.stdout;
+  chan := stdlib_stdout;
 
   (* Is the new file different from the current file? *)
   if Sys.file_exists filename && files_equal filename filename_new then
